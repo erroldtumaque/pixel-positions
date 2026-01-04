@@ -12,11 +12,17 @@ class Job extends Model
     /** @use HasFactory<\Database\Factories\JobFactory> */
     use HasFactory;
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    public function employer() {
+        return $this->belongsTo(Employer::class);
     }
 
-    public function jobs() {
-        return $this->hasMany(Job::class);
+    public function tags() {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function tag(string $name) {
+        $tag = Tag::firstOrCreate(['name' => $name]);
+        $this->tags()->attach($tag);
+        // return $this->belongsTo(Employer::class);
     }
 }
